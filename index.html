@@ -44,6 +44,17 @@
     </script>
     
     <style>
+        /* Loading Animation */
+        @keyframes revealLogo {
+            0% { transform: translateY(100%); opacity: 0; }
+            30% { transform: translateY(0); opacity: 1; filter: blur(0); }
+            70% { transform: translateY(0); opacity: 1; filter: blur(0); }
+            100% { transform: translateY(-50%); opacity: 0; filter: blur(10px); }
+        }
+        .animate-reveal {
+            animation: revealLogo 1.6s cubic-bezier(0.77,0,0.175,1) forwards;
+        }
+
         /* Custom Cursor */
         @media (pointer: fine) {
             body { cursor: none; }
@@ -96,18 +107,6 @@
             pointer-events: none; z-index: 9998; opacity: 0.04;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
-
-        .btn-minimal {
-            position: relative; overflow: hidden; z-index: 1;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-minimal::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; transform: scaleX(0); transform-origin: right;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1;
-        }
-        .btn-minimal:hover::before { transform: scaleX(1); transform-origin: left; }
-        .btn-minimal:hover { color: #000 !important; border-color: #fff; }
         
         /* Grid Background */
         .bg-grid {
@@ -153,11 +152,10 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
-        /* Huge Typography */
-        .hero-title {
-            font-size: clamp(3rem, 12vw, 12rem);
-            line-height: 0.9;
-            letter-spacing: -0.04em;
+        /* Hero UI Mask */
+        .ui-mask {
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
         }
 
         /* Mobile Menu */
@@ -168,6 +166,15 @@
 </head>
 <body class="antialiased selection:bg-white selection:text-black relative">
 
+    <!-- Initial Loading Screen -->
+    <div id="preloader" class="fixed inset-0 z-[999999] bg-[#030303] flex items-center justify-center transition-opacity duration-[800ms] ease-in-out">
+        <div class="overflow-hidden">
+            <h1 class="text-3xl sm:text-5xl text-white serif tracking-widest uppercase animate-reveal opacity-0">
+                Maahir & Co.
+            </h1>
+        </div>
+    </div>
+
     <div class="noise-overlay"></div>
     
     <div class="cursor-dot hidden md:block"></div>
@@ -177,7 +184,7 @@
     <nav id="navbar" class="fixed top-0 w-full z-50 py-6 border-b border-transparent">
         <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
             <a href="#" class="text-xl font-medium tracking-wide text-white serif flex items-center gap-2 magnetic-element relative z-50">
-                Maahir & Co.
+                M & Co.
             </a>
             
             <!-- Center Nav (Superwhisper style) -->
@@ -209,20 +216,14 @@
         </div>
     </div>
 
-    <!-- Hero Section (Editorial + Superwhisper style) -->
-    <section class="relative pt-32 pb-20 px-6 max-w-[1400px] mx-auto min-h-[90vh] flex flex-col justify-center items-center text-center overflow-hidden">
+    <!-- Hero Section (Application Dashboard Reveal) -->
+    <section class="relative pt-32 px-6 max-w-[1200px] mx-auto min-h-screen flex flex-col justify-start items-center text-center overflow-hidden z-10">
         <div id="hero-grid" class="absolute inset-0 bg-grid opacity-30 -z-10 pointer-events-none transition-transform duration-75"></div>
         
-        <div class="w-full relative z-10 flex flex-col items-center" data-aos="fade-up" data-aos-duration="1500">
+        <div class="w-full relative z-10 flex flex-col items-center" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1500">
             
-            <!-- Huge Editorial Title (M'BRAUN style) -->
-            <h1 class="hero-title text-white serif font-medium text-center uppercase mt-12 mb-8 px-2">
-                Maahir<br>
-                <span class="italic text-text-muted font-light">& Co.</span>
-            </h1>
-
             <!-- Badges (Superwhisper style) -->
-            <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <div class="flex flex-wrap justify-center gap-3 mt-8 mb-8">
                 <span class="pill-badge px-4 py-2 rounded-full text-xs font-medium text-[#4ade80] flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Zero-Data Retention
@@ -232,24 +233,39 @@
                     Enterprise Secure
                 </span>
             </div>
+
+            <!-- Huge Title -->
+            <h1 class="text-[clamp(2.5rem,6vw,6rem)] leading-[1.05] text-white serif font-medium text-center uppercase mb-6 px-2">
+                Automate Workflows.<br>
+                <span class="italic text-text-muted font-light">Eliminate Entry.</span>
+            </h1>
             
-            <p class="text-lg sm:text-2xl text-text-muted font-light leading-relaxed mb-12 max-w-2xl mx-auto tracking-wide">
-                Eliminate 80% of manual data entry in your financial workflows. We deploy custom, production-ready AI pipelines for commerce.
+            <p class="text-lg sm:text-xl text-text-muted font-light leading-relaxed mb-10 max-w-xl mx-auto tracking-wide">
+                We deploy custom, production-ready AI pipelines to reconcile data, process invoices, and onboard clients instantly.
             </p>
             
-            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-4">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-4 mb-16">
                 <a href="#contact" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-10 py-4 bg-white text-black font-semibold tracking-wide text-sm hover:bg-neutral-200 transition-colors duration-300 rounded-xl">
                     Schedule an Audit
                 </a>
-                <a href="#services" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-10 py-4 bg-[#111] border border-[#333] text-white font-semibold tracking-wide text-sm hover:border-[#666] transition-colors duration-300 rounded-xl">
-                    See the Systems
-                </a>
+            </div>
+
+            <!-- Dashboard App Window Rising from bottom -->
+            <div class="w-full relative rounded-t-3xl overflow-hidden border-t border-x border-white/15 shadow-[0_-20px_60px_rgba(255,255,255,0.05)] bg-[#050505] ui-mask" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="1700">
+                <!-- Mac style header -->
+                <div class="w-full h-12 bg-white/5 border-b border-white/5 flex items-center px-6 gap-2">
+                    <div class="w-3 h-3 rounded-full bg-[#ef4444]/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#f59e0b]/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#22c55e]/80"></div>
+                </div>
+                <!-- Generated UI Image -->
+                <img src="assets/hero_dashboard.jpg" alt="Maahir & Co. AI Dashboard Automation Pipeline" class="w-full h-auto object-cover opacity-90 transition-transform duration-[2s] hover:scale-105" />
             </div>
         </div>
     </section>
 
     <!-- Bento Grid Services (Mixing image 2, 4, 5) -->
-    <section id="services" class="py-20 sm:py-32 px-6 max-w-7xl mx-auto relative z-10">
+    <section id="services" class="py-20 sm:py-32 px-6 max-w-7xl mx-auto relative z-10 -mt-10">
         <div class="mb-16 sm:mb-20 text-center max-w-4xl mx-auto" data-aos="fade-up">
             <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-4">Core Competencies</h2>
             <h3 class="text-3xl sm:text-5xl text-white serif mb-6">Boost your Operations with<br><span class="inline-block mt-2 px-4 py-1 pill-badge rounded-xl">Smart Automation</span></h3>
@@ -456,6 +472,14 @@
     <!-- Scripts -->
     <script>
         AOS.init({ once: true, offset: 50, easing: 'ease-out-quint' });
+
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.classList.add('opacity-0', 'pointer-events-none');
+            }, 1600); // Allow animation to play fully before hiding overlay
+        });
 
         // Navbar Scroll
         window.addEventListener('scroll', () => {
