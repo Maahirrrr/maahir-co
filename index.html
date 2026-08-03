@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth bg-[#020813]">
+<html lang="en" class="scroll-smooth bg-[#030303]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,18 +26,14 @@
                         serif: ['"Playfair Display"', 'serif'],
                     },
                     colors: {
-                        void: '#020813',
-                        surface: '#071324',
-                        surface2: '#0b1a30',
-                        border: '#152740',
-                        accent: {
-                            DEFAULT: '#38bdf8', // Sky/Ocean Blue
-                            glow: 'rgba(56, 189, 248, 0.4)'
-                        },
+                        void: '#030303',
+                        surface: '#0a0a0a',
+                        surface2: '#121212',
+                        border: '#222222',
                         text: {
-                            main: '#f0f9ff',
-                            muted: '#94a3b8',
-                            subtle: '#475569'
+                            main: '#ededed',
+                            muted: '#888888',
+                            subtle: '#555555'
                         }
                     },
                     backgroundImage: {
@@ -66,14 +62,13 @@
         .cursor-dot {
             width: 6px;
             height: 6px;
-            background-color: #38bdf8;
-            box-shadow: 0 0 10px #38bdf8;
+            background-color: white;
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
         .cursor-outline {
             width: 40px;
             height: 40px;
-            border: 1px solid rgba(56, 189, 248, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
         }
         /* Hover states for cursor */
@@ -82,15 +77,15 @@
         }
         .cursor-hover .cursor-outline {
             width: 60px; height: 60px;
-            background-color: rgba(56, 189, 248, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
             border-color: transparent;
-            backdrop-filter: blur(2px);
+            backdrop-filter: invert(10%);
         }
 
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #020813;
-            color: #f0f9ff;
+            background-color: #030303;
+            color: #ededed;
             overflow-x: hidden;
         }
         h1, h2, h3, .serif {
@@ -98,9 +93,9 @@
         }
         
         .nav-scrolled {
-            background-color: rgba(2, 8, 19, 0.85);
+            background-color: rgba(3, 3, 3, 0.7);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         
         nav {
@@ -109,7 +104,7 @@
         
         /* Subtle glow effects */
         .glow-text {
-            text-shadow: 0 0 40px rgba(56, 189, 248, 0.25);
+            text-shadow: 0 0 50px rgba(255, 255, 255, 0.15);
         }
         
         .noise-overlay {
@@ -119,7 +114,6 @@
             z-index: 9998;
             opacity: 0.04;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
         }
 
         .btn-minimal {
@@ -132,7 +126,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #38bdf8;
+            background: #fff;
             transform: scaleX(0);
             transform-origin: right;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -143,14 +137,14 @@
             transform-origin: left;
         }
         .btn-minimal:hover {
-            color: #020813 !important;
-            border-color: #38bdf8;
+            color: #000 !important;
+            border-color: #fff;
         }
         
         /* Abstract geometric grid */
         .bg-grid {
-            background-image: linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 4rem 4rem;
             mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%);
             -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%);
@@ -169,7 +163,7 @@
             transform: translate(-50%, -50%);
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
@@ -182,9 +176,21 @@
             position: relative;
             z-index: 1;
         }
+
+        /* Image parallax reveal */
+        .reveal-img-container {
+            overflow: hidden;
+        }
+        .reveal-img {
+            transform: scale(1.1);
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .aos-animate .reveal-img {
+            transform: scale(1);
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-accent selection:text-void relative">
+<body class="antialiased selection:bg-white selection:text-black relative">
 
     <div class="noise-overlay"></div>
     
@@ -199,13 +205,13 @@
                 Maahir & Co.
             </a>
             <div class="hidden md:flex items-center space-x-12 text-sm tracking-widest text-text-muted uppercase">
-                <a href="#about" class="hover:text-accent transition duration-500 magnetic-element px-2 py-1">About</a>
-                <a href="#services" class="hover:text-accent transition duration-500 magnetic-element px-2 py-1">Services</a>
-                <a href="#projects" class="hover:text-accent transition duration-500 magnetic-element px-2 py-1">Case Studies</a>
-                <a href="#contact" class="hover:text-accent transition duration-500 magnetic-element px-2 py-1">Audit Call</a>
+                <a href="#about" class="hover:text-white transition duration-500 magnetic-element px-2 py-1">About</a>
+                <a href="#services" class="hover:text-white transition duration-500 magnetic-element px-2 py-1">Services</a>
+                <a href="#projects" class="hover:text-white transition duration-500 magnetic-element px-2 py-1">Case Studies</a>
+                <a href="#contact" class="hover:text-white transition duration-500 magnetic-element px-2 py-1">Audit Call</a>
             </div>
             <!-- Mobile Menu Button -->
-            <button class="md:hidden text-text-muted hover:text-accent transition duration-300 focus:outline-none">
+            <button class="md:hidden text-text-muted hover:text-white transition duration-300 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
@@ -215,14 +221,11 @@
     <section class="relative pt-40 pb-32 px-6 max-w-7xl mx-auto min-h-[95vh] flex flex-col justify-center items-center text-center overflow-hidden">
         <div id="hero-grid" class="absolute inset-0 bg-grid opacity-50 -z-10 pointer-events-none transition-transform duration-75"></div>
         
-        <!-- Subtle background glow -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] pointer-events-none -z-20"></div>
-
         <div class="max-w-5xl relative z-10" data-aos="fade-up" data-aos-duration="1500">
-            <div class="inline-flex items-center gap-3 text-accent text-[10px] font-semibold uppercase tracking-[0.3em] mb-12">
-                <span class="w-8 h-[1px] bg-accent/50"></span>
+            <div class="inline-flex items-center gap-3 text-text-subtle text-[10px] font-semibold uppercase tracking-[0.3em] mb-12">
+                <span class="w-8 h-[1px] bg-text-subtle"></span>
                 AI Systems & Automation for Commerce
-                <span class="w-8 h-[1px] bg-accent/50"></span>
+                <span class="w-8 h-[1px] bg-text-subtle"></span>
             </div>
             
             <h1 class="text-5xl sm:text-7xl text-white tracking-tight leading-[1.1] mb-10 serif glow-text font-medium">
@@ -235,10 +238,10 @@
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-6" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1500">
-                <a href="#contact" class="magnetic-element inline-flex justify-center items-center px-10 py-4 bg-accent text-void font-medium tracking-wide uppercase text-xs hover:bg-white transition-colors duration-300">
+                <a href="#contact" class="magnetic-element inline-flex justify-center items-center px-10 py-4 bg-white text-black font-medium tracking-wide uppercase text-xs hover:bg-neutral-200 transition-colors duration-300">
                     Schedule a 30-Min AI Audit
                 </a>
-                <a href="#services" class="magnetic-element inline-flex justify-center items-center px-10 py-4 bg-transparent border border-border text-white font-medium tracking-wide uppercase text-xs btn-minimal hover:border-accent">
+                <a href="#services" class="magnetic-element inline-flex justify-center items-center px-10 py-4 bg-transparent border border-border text-white font-medium tracking-wide uppercase text-xs btn-minimal">
                     See What We Automate
                 </a>
             </div>
@@ -246,9 +249,9 @@
         
         <!-- Scroll Indicator -->
         <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-70" data-aos="fade-in" data-aos-delay="1000" data-aos-duration="2000">
-            <span class="text-[9px] uppercase tracking-[0.3em] text-accent">Scroll</span>
-            <div class="w-[1px] h-16 bg-gradient-to-b from-border to-transparent overflow-hidden relative">
-                <div class="w-full h-1/2 bg-accent absolute top-0 left-0 animate-[shimmer_2s_infinite]"></div>
+            <span class="text-[9px] uppercase tracking-[0.3em] text-text-subtle">Scroll</span>
+            <div class="w-[1px] h-16 bg-gradient-to-b from-text-muted to-transparent overflow-hidden relative">
+                <div class="w-full h-1/2 bg-white absolute top-0 left-0 animate-[shimmer_2s_infinite]"></div>
             </div>
         </div>
     </section>
@@ -257,18 +260,18 @@
     <section class="border-y border-border bg-surface py-20 px-6 relative z-10">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
             <div data-aos="fade-up" data-aos-delay="0" class="group">
-                <div class="text-5xl font-bold text-white mb-4 serif group-hover:text-accent group-hover:glow-text transition-all duration-500">Zero</div>
-                <div class="text-xs tracking-[0.2em] text-accent uppercase mb-3">Data Training</div>
+                <div class="text-5xl font-bold text-white mb-4 serif group-hover:glow-text transition-all duration-500">Zero</div>
+                <div class="text-xs tracking-[0.2em] text-white uppercase mb-3">Data Training</div>
                 <div class="text-sm text-text-muted font-light max-w-xs mx-auto leading-relaxed">Strict enterprise privacy protocols ensuring your clients' data stays completely private.</div>
             </div>
             <div data-aos="fade-up" data-aos-delay="100" class="md:border-l md:border-r border-border group">
-                <div class="text-5xl font-bold text-white mb-4 serif group-hover:text-accent group-hover:glow-text transition-all duration-500">Instant</div>
-                <div class="text-xs tracking-[0.2em] text-accent uppercase mb-3">Intelligent OCR</div>
+                <div class="text-5xl font-bold text-white mb-4 serif group-hover:glow-text transition-all duration-500">Instant</div>
+                <div class="text-xs tracking-[0.2em] text-white uppercase mb-3">Intelligent OCR</div>
                 <div class="text-sm text-text-muted font-light max-w-xs mx-auto leading-relaxed">Extract structured reconciliation data from PDFs, receipts, and invoices in seconds.</div>
             </div>
             <div data-aos="fade-up" data-aos-delay="200" class="group">
-                <div class="text-5xl font-bold text-white mb-4 serif group-hover:text-accent group-hover:glow-text transition-all duration-500">Custom</div>
-                <div class="text-xs tracking-[0.2em] text-accent uppercase mb-3">Deterministic Build</div>
+                <div class="text-5xl font-bold text-white mb-4 serif group-hover:glow-text transition-all duration-500">Custom</div>
+                <div class="text-xs tracking-[0.2em] text-white uppercase mb-3">Deterministic Build</div>
                 <div class="text-sm text-text-muted font-light max-w-xs mx-auto leading-relaxed">Tailored integrations for Quickbooks, Xero, Tally, and custom ERP systems.</div>
             </div>
         </div>
@@ -278,7 +281,7 @@
     <section id="about" class="py-40 px-6 bg-surface relative z-10">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
             <div data-aos="fade-right" data-aos-duration="1200">
-                <h2 class="text-[10px] font-semibold tracking-[0.3em] text-accent uppercase mb-8">01 — The Approach</h2>
+                <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-8">01 — The Approach</h2>
                 <h3 class="text-4xl sm:text-6xl text-white mb-10 serif leading-[1.1] glow-text">
                     Bridging Machine Learning Rigor<br>
                     <span class="italic text-text-muted">with Commerce Strategy.</span>
@@ -294,9 +297,9 @@
                 </div>
                 
                 <div class="flex flex-wrap gap-4 mt-12">
-                    <span class="px-5 py-3 text-xs tracking-wider uppercase bg-void text-text-main border border-border hover:border-accent transition-colors cursor-default">Python / n8n</span>
-                    <span class="px-5 py-3 text-xs tracking-wider uppercase bg-void text-text-main border border-border hover:border-accent transition-colors cursor-default">LLM APIs</span>
-                    <span class="px-5 py-3 text-xs tracking-wider uppercase bg-void text-text-main border border-border hover:border-accent transition-colors cursor-default">RAG Systems</span>
+                    <span class="px-5 py-3 text-xs tracking-wider uppercase bg-void text-text-muted border border-border hover:border-text-subtle transition-colors cursor-default">Python / n8n</span>
+                    <span class="px-5 py-3 text-xs tracking-wider uppercase bg-void text-text-muted border border-border hover:border-text-subtle transition-colors cursor-default">LLM APIs</span>
+                    <span class="px-5 py-3 text-xs tracking-wider uppercase bg-void text-text-muted border border-border hover:border-text-subtle transition-colors cursor-default">RAG Systems</span>
                 </div>
             </div>
             
@@ -305,23 +308,23 @@
                     <h3 class="text-2xl font-medium text-white border-b border-border pb-8 mb-10 serif">Why Accounting & Commerce?</h3>
                     <ul class="space-y-10 text-text-muted font-light">
                         <li class="flex items-start gap-6 group">
-                            <span class="text-accent mt-1 opacity-70 group-hover:opacity-100 transition-opacity">—</span>
+                            <span class="text-white mt-1 opacity-50 group-hover:opacity-100 transition-opacity">—</span>
                             <div>
-                                <strong class="text-white font-medium block mb-2 tracking-wide group-hover:text-accent transition-colors">Measurable ROI</strong>
+                                <strong class="text-white font-medium block mb-2 tracking-wide">Measurable ROI</strong>
                                 High-volume document workflows mean immediate, scalable return on investment.
                             </div>
                         </li>
                         <li class="flex items-start gap-6 group">
-                            <span class="text-accent mt-1 opacity-70 group-hover:opacity-100 transition-opacity">—</span>
+                            <span class="text-white mt-1 opacity-50 group-hover:opacity-100 transition-opacity">—</span>
                             <div>
-                                <strong class="text-white font-medium block mb-2 tracking-wide group-hover:text-accent transition-colors">Advisory Shift</strong>
+                                <strong class="text-white font-medium block mb-2 tracking-wide">Advisory Shift</strong>
                                 Automating mundane ledger entry allows your senior team to focus purely on high-value advisory work.
                             </div>
                         </li>
                         <li class="flex items-start gap-6 group">
-                            <span class="text-accent mt-1 opacity-70 group-hover:opacity-100 transition-opacity">—</span>
+                            <span class="text-white mt-1 opacity-50 group-hover:opacity-100 transition-opacity">—</span>
                             <div>
-                                <strong class="text-white font-medium block mb-2 tracking-wide group-hover:text-accent transition-colors">Strict Compliance</strong>
+                                <strong class="text-white font-medium block mb-2 tracking-wide">Strict Compliance</strong>
                                 Deploying bulletproof privacy options, including on-premise or zero-retention LLM setups.
                             </div>
                         </li>
@@ -334,7 +337,7 @@
     <!-- Services Section -->
     <section id="services" class="py-40 px-6 max-w-7xl mx-auto border-t border-border relative z-10">
         <div class="mb-32 text-center max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-[10px] font-semibold tracking-[0.3em] text-accent uppercase mb-6">02 — How We Help Your Practice Scale</h2>
+            <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-6">02 — How We Help Your Practice Scale</h2>
             <h3 class="text-5xl sm:text-6xl text-white serif mb-8 glow-text leading-[1.1]">No generic fluff. Production-ready workflows.</h3>
             <p class="text-text-muted font-light tracking-wide text-lg">We build deterministic workflows designed specifically for high-precision commerce operations.</p>
         </div>
@@ -343,7 +346,7 @@
             <!-- Service 1 -->
             <div class="bg-void p-14 hover:bg-surface transition-colors duration-700 spotlight-card" data-aos="fade-up" data-aos-delay="0">
                 <div class="spotlight-content">
-                    <div class="text-accent text-sm font-serif italic mb-14 opacity-70">I.</div>
+                    <div class="text-text-subtle text-sm font-serif italic mb-14 opacity-50">I.</div>
                     <h4 class="text-2xl text-white mb-6 tracking-wide font-medium serif">Invoice & Document Processing</h4>
                     <p class="text-text-muted font-light leading-relaxed text-sm">
                         Automated extraction pipelines that parse unstructured receipts, tax documents, and bills, outputting clean, validated JSON directly into your accounting software.
@@ -354,7 +357,7 @@
             <!-- Service 2 -->
             <div class="bg-void p-14 hover:bg-surface transition-colors duration-700 spotlight-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="spotlight-content">
-                    <div class="text-accent text-sm font-serif italic mb-14 opacity-70">II.</div>
+                    <div class="text-text-subtle text-sm font-serif italic mb-14 opacity-50">II.</div>
                     <h4 class="text-2xl text-white mb-6 tracking-wide font-medium serif">Reconciliation & Anomaly Bots</h4>
                     <p class="text-text-muted font-light leading-relaxed text-sm">
                         Custom rules and LLM agents that flag ledger discrepancies, duplicate payments, and compliance risks before month-end closing.
@@ -365,7 +368,7 @@
             <!-- Service 3 -->
             <div class="bg-void p-14 hover:bg-surface transition-colors duration-700 spotlight-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="spotlight-content">
-                    <div class="text-accent text-sm font-serif italic mb-14 opacity-70">III.</div>
+                    <div class="text-text-subtle text-sm font-serif italic mb-14 opacity-50">III.</div>
                     <h4 class="text-2xl text-white mb-6 tracking-wide font-medium serif">Client Onboarding Workflows</h4>
                     <p class="text-text-muted font-light leading-relaxed text-sm">
                         Streamline client intake with smart AI forms that categorize tax documents, check for missing pages, and follow up autonomously via email.
@@ -378,44 +381,44 @@
     <!-- Case Studies / Projects Section -->
     <section id="projects" class="py-40 px-6 max-w-7xl mx-auto border-t border-border relative z-10">
         <div class="mb-32 text-center max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-[10px] font-semibold tracking-[0.3em] text-accent uppercase mb-6">03 — Proven Systems</h2>
+            <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-6">03 — Proven Systems</h2>
             <h3 class="text-5xl sm:text-6xl text-white serif mb-8 glow-text leading-[1.1]">Real-World Deployments.</h3>
             <p class="text-text-muted font-light tracking-wide text-lg">Examples of custom AI pipelines built to reduce research time and cut operational overhead.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
             <!-- Project 1 -->
-            <div class="bg-surface border border-border p-12 hover:border-accent transition-colors duration-700 spotlight-card group" data-aos="fade-up" data-aos-delay="0">
+            <div class="bg-surface border border-border p-12 hover:border-text-subtle transition-colors duration-700 spotlight-card" data-aos="fade-up" data-aos-delay="0">
                 <div class="spotlight-content">
                     <div class="flex items-center gap-4 mb-8">
-                        <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse shadow-[0_0_8px_#38bdf8]"></span>
-                        <span class="text-[10px] text-accent uppercase tracking-[0.2em]">NyAi Pipeline</span>
+                        <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                        <span class="text-[10px] text-white uppercase tracking-[0.2em]">NyAi Pipeline</span>
                     </div>
-                    <h4 class="text-3xl text-white mb-6 serif font-medium group-hover:text-white transition-colors">Legal Document AI Pipeline</h4>
+                    <h4 class="text-3xl text-white mb-6 serif font-medium">Legal Document AI Pipeline</h4>
                     <p class="text-text-muted font-light text-sm leading-relaxed mb-10">
                         Built an autonomous legal information processing pipeline that translates complex regulatory data into accessible, structured outputs. Reduced information search time by parsing unstructured legal documents using custom AI architectures, achieving an 80% reduction in research overhead.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <span class="px-4 py-2 bg-void text-text-subtle group-hover:text-accent transition-colors text-[9px] tracking-[0.2em] uppercase border border-border">Document Parsing</span>
-                        <span class="px-4 py-2 bg-void text-text-subtle group-hover:text-accent transition-colors text-[9px] tracking-[0.2em] uppercase border border-border">NLP Extraction</span>
+                        <span class="px-4 py-2 bg-void text-text-subtle text-[9px] tracking-[0.2em] uppercase border border-border">Document Parsing</span>
+                        <span class="px-4 py-2 bg-void text-text-subtle text-[9px] tracking-[0.2em] uppercase border border-border">NLP Extraction</span>
                     </div>
                 </div>
             </div>
 
             <!-- Project 2 -->
-            <div class="bg-surface border border-border p-12 hover:border-accent transition-colors duration-700 spotlight-card group" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-surface border border-border p-12 hover:border-text-subtle transition-colors duration-700 spotlight-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="spotlight-content">
                     <div class="flex items-center gap-4 mb-8">
-                        <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse shadow-[0_0_8px_#38bdf8]"></span>
-                        <span class="text-[10px] text-accent uppercase tracking-[0.2em]">YOLOv8x Integration</span>
+                        <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                        <span class="text-[10px] text-white uppercase tracking-[0.2em]">YOLOv8x Integration</span>
                     </div>
-                    <h4 class="text-3xl text-white mb-6 serif font-medium group-hover:text-white transition-colors">Vision-Based Context Automation</h4>
+                    <h4 class="text-3xl text-white mb-6 serif font-medium">Vision-Based Context Automation</h4>
                     <p class="text-text-muted font-light text-sm leading-relaxed mb-10">
                         Developed and deployed automated computer vision pipelines for real-time spatial tracking and context awareness. Focused on highly efficient edge processing, transforming raw visual data into automated alerts and structured operational logs without manual monitoring.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <span class="px-4 py-2 bg-void text-text-subtle group-hover:text-accent transition-colors text-[9px] tracking-[0.2em] uppercase border border-border">Computer Vision</span>
-                        <span class="px-4 py-2 bg-void text-text-subtle group-hover:text-accent transition-colors text-[9px] tracking-[0.2em] uppercase border border-border">Edge Processing</span>
+                        <span class="px-4 py-2 bg-void text-text-subtle text-[9px] tracking-[0.2em] uppercase border border-border">Computer Vision</span>
+                        <span class="px-4 py-2 bg-void text-text-subtle text-[9px] tracking-[0.2em] uppercase border border-border">Edge Processing</span>
                     </div>
                 </div>
             </div>
@@ -425,12 +428,12 @@
     <!-- Contact CTA Section -->
     <section id="contact" class="py-40 px-6 border-t border-border bg-surface relative z-10">
         <div class="max-w-4xl mx-auto text-center" data-aos="zoom-in" data-aos-duration="1500">
-            <h2 class="text-[10px] font-semibold tracking-[0.3em] text-accent uppercase mb-8">04 — Engage</h2>
+            <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-8">04 — Engage</h2>
             <h3 class="text-5xl sm:text-7xl text-white mb-12 serif font-medium glow-text leading-[1.1]">Ready to Automate Your Workflows?</h3>
             <p class="text-text-muted font-light text-xl mb-16 max-w-2xl mx-auto tracking-wide leading-relaxed">
                 Let's identify where your team is burning hours on manual tasks. Book a 30-minute consultation call to map out your custom AI implementation plan.
             </p>
-            <a href="mailto:contact@mahir.co" class="magnetic-element inline-flex justify-center items-center px-14 py-6 bg-accent text-void font-bold tracking-[0.2em] uppercase text-xs hover:bg-white transition-colors duration-500 rounded-sm shadow-[0_0_30px_rgba(56,189,248,0.3)]">
+            <a href="mailto:contact@mahir.co" class="magnetic-element inline-flex justify-center items-center px-14 py-6 bg-white text-black font-medium tracking-[0.2em] uppercase text-xs hover:bg-neutral-200 transition-colors duration-500 rounded-sm">
                 Book a 30-Min AI Audit
             </a>
         </div>
@@ -441,11 +444,11 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
             <div class="text-white serif text-2xl tracking-wider">Maahir & Co.</div>
             
-            <div class="flex items-center gap-10 text-[10px] tracking-[0.3em] text-text-muted uppercase">
-                <a href="#about" class="hover:text-accent transition-colors duration-300">About</a>
-                <a href="#services" class="hover:text-accent transition-colors duration-300">Services</a>
-                <a href="#projects" class="hover:text-accent transition-colors duration-300">Case Studies</a>
-                <a href="mailto:contact@maahir.co" class="hover:text-accent transition-colors duration-300">Contact</a>
+            <div class="flex items-center gap-10 text-[10px] tracking-[0.3em] text-text-subtle uppercase">
+                <a href="#about" class="hover:text-white transition-colors duration-300">About</a>
+                <a href="#services" class="hover:text-white transition-colors duration-300">Services</a>
+                <a href="#projects" class="hover:text-white transition-colors duration-300">Case Studies</a>
+                <a href="mailto:contact@maahir.co" class="hover:text-white transition-colors duration-300">Contact</a>
             </div>
             
             <div class="text-[9px] tracking-[0.2em] text-text-subtle uppercase">
