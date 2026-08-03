@@ -126,6 +126,7 @@
             position: relative;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 30px rgba(0,0,0,0.5);
             transition: transform 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
         }
         .glass-card:hover {
             border-color: rgba(255,255,255,0.15);
@@ -138,9 +139,10 @@
         }
         .glass-card-glow {
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 60%; height: 50%;
+            width: 100%; height: 60%;
             background: radial-gradient(ellipse at top, rgba(255,255,255,0.08) 0%, transparent 70%);
             pointer-events: none;
+            z-index: 0;
         }
 
         /* Pill Badge */
@@ -243,7 +245,7 @@
             
             <!-- Large Feature Card -->
             <div class="md:col-span-2 glass-card p-10 sm:p-14" data-aos="fade-up" data-aos-delay="0">
-                <div class="glass-card-glow"></div>
+                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
                     <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-8 border border-white/10">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -273,21 +275,30 @@
 
             <!-- 3 Bottom Cards -->
             <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="0">
-                <h4 class="text-lg text-white mb-3 font-semibold">Client Onboarding</h4>
-                <p class="text-text-muted font-light text-sm mb-6">Streamline client intake with smart AI forms that categorize tax documents autonomously.</p>
-                <div class="text-[10px] uppercase tracking-widest text-text-subtle">Workflow Automation</div>
+                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
+                <div class="relative z-10">
+                    <h4 class="text-lg text-white mb-3 font-semibold">Client Onboarding</h4>
+                    <p class="text-text-muted font-light text-sm mb-6">Streamline client intake with smart AI forms that categorize tax documents autonomously.</p>
+                    <div class="text-[10px] uppercase tracking-widest text-text-subtle">Workflow Automation</div>
+                </div>
             </div>
             
             <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
-                <h4 class="text-lg text-white mb-3 font-semibold">Near-Instant OCR</h4>
-                <p class="text-text-muted font-light text-sm mb-6">Extract structured reconciliation data from PDFs and invoices in mere seconds.</p>
-                <div class="text-[10px] uppercase tracking-widest text-text-subtle">Data Parsing</div>
+                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
+                <div class="relative z-10">
+                    <h4 class="text-lg text-white mb-3 font-semibold">Near-Instant OCR</h4>
+                    <p class="text-text-muted font-light text-sm mb-6">Extract structured reconciliation data from PDFs and invoices in mere seconds.</p>
+                    <div class="text-[10px] uppercase tracking-widest text-text-subtle">Data Parsing</div>
+                </div>
             </div>
 
             <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="200">
-                <h4 class="text-lg text-white mb-3 font-semibold">Seamless Integration</h4>
-                <p class="text-text-muted font-light text-sm mb-6">Tailored integrations mapping directly to QuickBooks, Xero, Tally, and custom ERPs.</p>
-                <div class="text-[10px] uppercase tracking-widest text-text-subtle">ERP Systems</div>
+                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
+                <div class="relative z-10">
+                    <h4 class="text-lg text-white mb-3 font-semibold">Seamless Integration</h4>
+                    <p class="text-text-muted font-light text-sm mb-6">Tailored integrations mapping directly to QuickBooks, Xero, Tally, and custom ERPs.</p>
+                    <div class="text-[10px] uppercase tracking-widest text-text-subtle">ERP Systems</div>
+                </div>
             </div>
         </div>
     </section>
@@ -304,7 +315,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Project 1 -->
             <div class="glass-card p-12 hover:border-white/30 transition-all duration-500" data-aos="fade-up">
-                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.1) 0%, transparent 70%);"></div>
+                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(74, 222, 128, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
                     <h4 class="text-2xl text-white mb-2 font-semibold">NyAi Pipeline</h4>
                     <p class="text-text-subtle text-sm mb-8">Legal Document AI Pipeline</p>
@@ -328,7 +339,7 @@
 
             <!-- Project 2 -->
             <div class="glass-card p-12 hover:border-white/30 transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
-                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.1) 0%, transparent 70%);"></div>
+                <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(74, 222, 128, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
                     <h4 class="text-2xl text-white mb-2 font-semibold">YOLOv8x Integration</h4>
                     <p class="text-text-subtle text-sm mb-8">Vision-Based Context Automation</p>
