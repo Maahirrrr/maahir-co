@@ -169,7 +169,7 @@
     <!-- Initial Loading Screen -->
     <div id="preloader" class="fixed inset-0 z-[999999] bg-[#030303] flex items-center justify-center transition-opacity duration-[800ms] ease-in-out">
         <div class="overflow-hidden">
-            <h1 class="text-3xl sm:text-5xl text-white serif tracking-widest uppercase animate-reveal opacity-0">
+            <h1 class="text-4xl sm:text-5xl text-white serif tracking-widest uppercase animate-reveal opacity-0">
                 Maahir & Co.
             </h1>
         </div>
@@ -216,56 +216,65 @@
         </div>
     </div>
 
-    <!-- Hero Section (Application Dashboard Reveal) -->
-    <section class="relative pt-32 px-6 max-w-[1200px] mx-auto min-h-screen flex flex-col justify-start items-center text-center overflow-hidden z-10">
+    <!-- Hero Section -->
+    <section class="relative pt-24 sm:pt-32 px-4 sm:px-6 max-w-[1200px] mx-auto min-h-[90vh] sm:min-h-screen flex flex-col justify-start items-center text-center overflow-hidden z-10 w-full">
         <div id="hero-grid" class="absolute inset-0 bg-grid opacity-30 -z-10 pointer-events-none transition-transform duration-75"></div>
         
-        <div class="w-full relative z-10 flex flex-col items-center" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1500">
+        <div class="w-full relative z-10 flex flex-col items-center justify-center" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1500">
             
-            <!-- Badges (Superwhisper style) -->
-            <div class="flex flex-wrap justify-center gap-3 mt-8 mb-8">
-                <span class="pill-badge px-4 py-2 rounded-full text-xs font-medium text-[#4ade80] flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <!-- Badges -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mt-8 mb-6 sm:mb-8">
+                <span class="pill-badge px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-xs font-medium text-[#4ade80] flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Zero-Data Retention
                 </span>
-                <span class="pill-badge px-4 py-2 rounded-full text-xs font-medium text-[#60a5fa] flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <span class="pill-badge px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-xs font-medium text-[#60a5fa] flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     Enterprise Secure
                 </span>
             </div>
 
-            <!-- Huge Title -->
-            <h1 class="text-[clamp(2.5rem,6vw,6rem)] leading-[1.05] text-white serif font-medium text-center uppercase mb-6 px-2">
+            <!-- Huge Title with improved mobile scaling -->
+            <h1 class="text-4xl sm:text-[clamp(3.5rem,6vw,6rem)] leading-tight text-white serif font-medium text-center uppercase mb-4 sm:mb-6 px-2 w-full max-w-4xl mx-auto">
                 Automate Workflows.<br>
                 <span class="italic text-text-muted font-light">Eliminate Entry.</span>
             </h1>
             
-            <p class="text-lg sm:text-xl text-text-muted font-light leading-relaxed mb-10 max-w-xl mx-auto tracking-wide">
+            <p class="text-base sm:text-xl text-text-muted font-light leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto tracking-wide px-4">
                 We deploy custom, production-ready AI pipelines to reconcile data, process invoices, and onboard clients instantly.
             </p>
             
-            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-4 mb-16">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-4 mb-12 sm:mb-16">
                 <a href="#contact" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-10 py-4 bg-white text-black font-semibold tracking-wide text-sm hover:bg-neutral-200 transition-colors duration-300 rounded-xl">
                     Schedule an Audit
                 </a>
             </div>
 
-            <!-- Dashboard App Window Rising from bottom -->
-            <div class="w-full relative rounded-t-3xl overflow-hidden border-t border-x border-white/15 shadow-[0_-20px_60px_rgba(255,255,255,0.05)] bg-[#050505] ui-mask" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="1700">
+            <!-- Dashboard App Window Rising from bottom (Macbook View for Desktop) -->
+            <div class="hidden md:block w-full max-w-5xl mx-auto relative rounded-t-[2rem] overflow-hidden border-t border-x border-white/15 shadow-[0_-20px_60px_rgba(255,255,255,0.05)] bg-[#050505] ui-mask" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="1700">
                 <!-- Mac style header -->
                 <div class="w-full h-12 bg-white/5 border-b border-white/5 flex items-center px-6 gap-2">
                     <div class="w-3 h-3 rounded-full bg-[#ef4444]/80"></div>
                     <div class="w-3 h-3 rounded-full bg-[#f59e0b]/80"></div>
                     <div class="w-3 h-3 rounded-full bg-[#22c55e]/80"></div>
                 </div>
-                <!-- Generated UI Image -->
                 <img src="assets/hero_dashboard.jpg" alt="Maahir & Co. AI Dashboard Automation Pipeline" class="w-full h-auto object-cover opacity-90 transition-transform duration-[2s] hover:scale-105" />
+            </div>
+
+            <!-- Dynamic Island Phone View (for Mobile) -->
+            <div class="block md:hidden w-[90%] max-w-[340px] mx-auto relative rounded-t-[3rem] overflow-hidden border-t-8 border-x-8 border-[#1a1a1a] shadow-[0_-20px_60px_rgba(255,255,255,0.05)] bg-[#050505] ui-mask" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="1700">
+                <!-- Dynamic Island Header -->
+                <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-8 bg-black rounded-full z-20 flex items-center justify-end px-3 border border-white/5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-white/10 shadow-inner"></div>
+                </div>
+                <!-- Vertical UI Image -->
+                <img src="assets/hero_dashboard_mobile.jpg" alt="Maahir & Co. Mobile AI Dashboard" class="w-full h-auto object-cover opacity-90 pt-3 transition-transform duration-[2s] hover:scale-105" />
             </div>
         </div>
     </section>
 
     <!-- Bento Grid Services (Mixing image 2, 4, 5) -->
-    <section id="services" class="py-20 sm:py-32 px-6 max-w-7xl mx-auto relative z-10 -mt-10">
+    <section id="services" class="py-20 sm:py-32 px-6 max-w-7xl mx-auto relative z-10 sm:-mt-10">
         <div class="mb-16 sm:mb-20 text-center max-w-4xl mx-auto" data-aos="fade-up">
             <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-4">Core Competencies</h2>
             <h3 class="text-3xl sm:text-5xl text-white serif mb-6">Boost your Operations with<br><span class="inline-block mt-2 px-4 py-1 pill-badge rounded-xl">Smart Automation</span></h3>
