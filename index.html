@@ -199,7 +199,7 @@
             <a href="#about" class="mobile-link hover:text-white transition-colors">About</a>
             <a href="#services" class="mobile-link hover:text-white transition-colors">Services</a>
             <a href="#projects" class="mobile-link hover:text-white transition-colors">Case Studies</a>
-            <a href="#contact" class="mobile-link text-black bg-white px-8 py-3 rounded-full text-lg mt-4 font-sans uppercase tracking-widest font-bold">Audit Call</a>
+            <button onclick="document.getElementById('auditModal').classList.remove('hidden')" class="mobile-link text-black bg-white px-8 py-3 rounded-full text-lg mt-4 font-sans uppercase tracking-widest font-bold">Audit Call</button>
         </div>
     </div>
 
@@ -232,9 +232,9 @@
             </p>
             
             <div class="flex flex-col items-center gap-4 w-full px-4 mb-12 sm:mb-16">
-                <a href="https://calendly.com/" target="_blank" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-10 py-4 bg-white text-black font-semibold tracking-wide text-sm hover:bg-neutral-200 transition-colors duration-300 rounded-xl">
+                <button onclick="document.getElementById('auditModal').classList.remove('hidden')" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-10 py-4 bg-white text-black font-semibold tracking-wide text-sm hover:bg-neutral-200 transition-colors duration-300 rounded-xl">
                     Book a Free Workflow Audit
-                </a>
+                </button>
                 <p class="text-sm text-text-subtle font-light mt-2">Direct integrations with Tally, QuickBooks, Xero, and custom ERPs.</p>
             </div>
 
@@ -452,9 +452,9 @@
                 Let's identify where your team is burning hours on manual tasks. Book a 30-minute consultation call to map out your custom AI implementation plan.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto">
-                <a href="https://calendly.com/" target="_blank" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-neutral-200 transition-colors">
+                <button onclick="document.getElementById('auditModal').classList.remove('hidden')" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-neutral-200 transition-colors">
                     Book an Audit Call
-                </a>
+                </button>
             </div>
         </div>
     </section>
@@ -543,5 +543,59 @@
             if(heroGrid) heroGrid.style.transform = `translate(${(window.innerWidth - e.pageX)/50}px, ${(window.innerHeight - e.pageY)/50}px)`;
         });
     </script>
+
+    <!-- Audit Form Modal -->
+    <div id="auditModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="document.getElementById('auditModal').classList.add('hidden')"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative bg-surface border border-border w-full max-w-lg rounded-2xl shadow-2xl p-6 sm:p-8 transform transition-all">
+            <button onclick="document.getElementById('auditModal').classList.add('hidden')" class="absolute top-4 right-4 text-text-muted hover:text-white p-2 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 class="text-2xl text-white serif font-medium mb-2">Book a Workflow Audit</h3>
+            <p class="text-text-muted font-light text-sm mb-6">Fill out the details below and I'll get back to you within 24 hours.</p>
+            
+            <form action="https://formsubmit.co/maahirkadia@gmail.com" method="POST" class="space-y-4">
+                <!-- Disable Captcha (Optional but cleaner UX) -->
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="New Workflow Audit Request from Maahir & Co.">
+                <!-- After submit redirect back to site -->
+                <input type="hidden" name="_next" value="https://maahirrrr.github.io/maahir-co/">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">Name</label>
+                        <input type="text" name="Name" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="John Doe">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">Email</label>
+                        <input type="email" name="Email" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="john@company.com">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">What industry are you in?</label>
+                    <input type="text" name="Industry" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="e.g. Accounting, E-commerce, Legal">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">What software are you currently using?</label>
+                    <input type="text" name="Software" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="e.g. Tally, Xero, QuickBooks, Custom ERP">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">What is your biggest manual data entry bottleneck?</label>
+                    <textarea name="Bottleneck" required rows="3" class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700 resize-none" placeholder="Briefly describe the task that takes up the most time..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-white text-black font-semibold rounded-xl px-8 py-4 mt-2 hover:bg-neutral-200 transition-colors">
+                    Submit Request
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
