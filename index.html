@@ -43,6 +43,9 @@
         }
     </script>
     <style>
+        /* Fix horizontal scroll */
+        html { overflow-x: hidden; }
+
         /* Custom Cursor */
         @media (pointer: fine) {
             body { cursor: none; }
@@ -96,7 +99,7 @@
         
         .noise-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 9998; opacity: 0.04;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
@@ -390,7 +393,7 @@
     <!-- About Section -->
     <section id="about" class="py-20 sm:py-32 px-6 bg-surface/50 border-y border-border relative z-10 mt-10">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-24 items-center">
-            <div data-aos="fade-right">
+            <div data-aos="fade-up">
                 <h3 class="text-3xl sm:text-4xl text-white mb-8 serif">
                     Bridging Machine Learning Rigor with Commerce Strategy.
                 </h3>
@@ -407,7 +410,7 @@
                 </div>
             </div>
             
-            <div class="glass-card p-8 sm:p-10" data-aos="fade-left">
+            <div class="glass-card p-8 sm:p-10" data-aos="fade-up" data-aos-delay="100">
                 <!-- Red Glow added as requested -->
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(248, 113, 113, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
