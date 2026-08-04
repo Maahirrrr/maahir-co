@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" style="background:#030303;overflow-x:hidden;">
+<html lang="en" style="background:#030303;overflow-x:hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -44,6 +44,14 @@
         /* ── Global Reset ── */
         *, *::before, *::after { box-sizing: border-box; }
         html, body { overflow-x: hidden; width: 100%; }
+
+        /* ── Smooth Scrolling ── */
+        html {
+            scroll-behavior: smooth;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
 
         /* Hide scrollbar */
         ::-webkit-scrollbar { display: none; }
@@ -215,12 +223,12 @@
             </div>
 
             <!-- Title -->
-            <h1 class="text-[2.25rem] sm:text-[clamp(3.5rem,6vw,6rem)] leading-[1.1] text-white serif font-medium text-center uppercase mb-4 sm:mb-6 w-full max-w-4xl mx-auto">
+            <h1 class="text-4xl sm:text-[clamp(3.5rem,6vw,6rem)] leading-tight text-white serif font-medium text-center uppercase mb-4 sm:mb-6 px-2 w-full max-w-4xl mx-auto">
                 Automate Workflows.<br>
                 <span class="italic text-text-muted font-light">Eliminate Entry.</span>
             </h1>
             
-            <p class="text-[0.95rem] sm:text-xl text-text-muted font-light leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto tracking-wide">
+            <p class="text-base sm:text-xl text-text-muted font-light leading-relaxed mb-8 sm:mb-10 max-w-xl mx-auto tracking-wide px-4">
                 We deploy custom, production-ready AI pipelines to reconcile data, process invoices, and onboard clients instantly.
             </p>
             
@@ -256,7 +264,7 @@
     <section id="services" class="py-16 sm:py-32 px-5 sm:px-6 max-w-7xl mx-auto relative z-10">
         <div class="mb-12 sm:mb-20 text-center max-w-4xl mx-auto" data-aos="fade-up">
             <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-4">Core Competencies</h2>
-            <h3 class="text-2xl sm:text-5xl text-white serif mb-6">Boost your Operations with<br><span class="inline-block mt-2 px-4 py-1 pill-badge rounded-xl text-xl sm:text-5xl">Smart Automation</span></h3>
+            <h3 class="text-3xl sm:text-5xl text-white serif mb-6">Boost your Operations with<br><span class="inline-block mt-2 px-4 py-1 pill-badge rounded-xl">Smart Automation</span></h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
@@ -268,8 +276,8 @@
                     <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 sm:mb-8 border border-blue-500/20">
                         <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <h4 class="text-xl sm:text-2xl text-white mb-3 sm:mb-4 font-semibold">Invoice & Document Processing</h4>
-                    <p class="text-text-muted font-light leading-relaxed max-w-md mb-6 sm:mb-8 text-sm sm:text-base">
+                    <h4 class="text-2xl text-white mb-4 font-semibold">Invoice & Document Processing</h4>
+                    <p class="text-text-muted font-light leading-relaxed max-w-md mb-8">
                         Automated extraction pipelines that parse unstructured receipts, tax documents, and bills, outputting clean, validated JSON directly into your accounting software.
                     </p>
                     <a href="#contact" class="text-white text-sm font-medium hover:text-text-muted transition-colors inline-flex items-center gap-2">More info <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
@@ -453,11 +461,12 @@
 
     <!-- ══════ Scripts ══════ -->
     <script>
-        // AOS: disable horizontal-moving animations to prevent overflow
+        // AOS: smooth, steady scroll animations
         AOS.init({
             once: true,
-            offset: 30,
-            easing: 'ease-out-quint',
+            offset: 60,
+            duration: 900,
+            easing: 'ease-out-cubic',
             disable: false
         });
 
