@@ -91,9 +91,10 @@
         h1, h2, h3, .serif { font-family: '"Playfair Display"', serif; }
         
         .nav-scrolled {
-            background-color: rgba(3, 3, 3, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background-color: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* bright edge to catch light */
         }
         nav { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         
@@ -157,6 +158,49 @@
         /* Mobile Menu */
         #mobile-menu {
             transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* Apple Design Rules */
+        /* 1. Response: kill latency */
+        a, button, .magnetic-element {
+            transition: transform 100ms ease-out, background-color 0.2s, border-color 0.2s;
+        }
+        a:active, button:active, .magnetic-element:active {
+            transform: scale(0.97) !important;
+            transition: transform 50ms ease-out;
+        }
+
+        /* 15. Typography */
+        h1, h2, h3, .serif, .display {
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+        }
+        p, .text-sm, .text-base, .text-lg {
+            letter-spacing: 0;
+            line-height: 1.5;
+        }
+
+        /* 14. Reduced motion & accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .glass-card:hover {
+                transform: none !important;
+            }
+        }
+        @media (prefers-reduced-transparency: reduce) {
+            .nav-scrolled {
+                background: #030303 !important;
+                backdrop-filter: none !important;
+            }
+            .glass-card {
+                background: #111 !important;
+                backdrop-filter: none !important;
+            }
         }
     </style>
 </head>
