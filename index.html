@@ -17,6 +17,9 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+    <!-- Marked.js for Markdown Rendering in bot -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -43,10 +46,8 @@
         }
     </script>
     <style>
-        /* Fix horizontal scroll */
         html { overflow-x: hidden; }
 
-        /* Custom Cursor */
         @media (pointer: fine) {
             body { cursor: none; }
             a, button, .magnetic { cursor: none; }
@@ -84,7 +85,6 @@
             overflow-x: hidden;
         }
         
-        /* Hide scrollbar */
         ::-webkit-scrollbar { display: none; }
         * { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -94,7 +94,7 @@
             background-color: rgba(10, 10, 10, 0.6);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* bright edge to catch light */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
         nav { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         
@@ -105,7 +105,6 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
         
-        /* Grid Background */
         .bg-grid {
             background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
@@ -114,7 +113,6 @@
             -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%);
         }
 
-        /* High-end Glass Cards (Bento style) */
         .glass-card {
             background: linear-gradient(180deg, rgba(25,25,25,0.4) 0%, rgba(10,10,10,0.8) 100%);
             border: 1px solid rgba(255,255,255,0.05);
@@ -124,10 +122,7 @@
             transition: transform 0.3s ease, border-color 0.3s ease;
             overflow: hidden;
         }
-        .glass-card:hover {
-            border-color: rgba(255,255,255,0.15);
-            transform: translateY(-2px);
-        }
+        .glass-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
         .glass-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
@@ -137,11 +132,9 @@
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
             width: 100%; height: 60%;
             background: radial-gradient(ellipse at top, rgba(255,255,255,0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
 
-        /* Pill Badge */
         .pill-badge {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
@@ -149,19 +142,13 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
-        /* Hero UI Mask */
         .ui-mask {
             mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
         }
 
-        /* Mobile Menu */
-        #mobile-menu {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
+        #mobile-menu { transition: opacity 0.3s ease, visibility 0.3s ease; }
 
-        /* Apple Design Rules */
-        /* 1. Response: kill latency */
         a, button, .magnetic-element {
             transition: transform 100ms ease-out, background-color 0.2s, border-color 0.2s;
         }
@@ -170,17 +157,9 @@
             transition: transform 50ms ease-out;
         }
 
-        /* 15. Typography */
-        h1, h2, h3, .serif, .display {
-            letter-spacing: -0.02em;
-            line-height: 1.05;
-        }
-        p, .text-sm, .text-base, .text-lg {
-            letter-spacing: 0;
-            line-height: 1.5;
-        }
+        h1, h2, h3, .serif, .display { letter-spacing: -0.02em; line-height: 1.05; }
+        p, .text-sm, .text-base, .text-lg { letter-spacing: 0; line-height: 1.5; }
 
-        /* 14. Reduced motion & accessibility */
         @media (prefers-reduced-motion: reduce) {
             *, ::before, ::after {
                 animation-duration: 0.01ms !important;
@@ -188,26 +167,226 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
-            .glass-card:hover {
-                transform: none !important;
-            }
+            .glass-card:hover { transform: none !important; }
         }
         @media (prefers-reduced-transparency: reduce) {
-            .nav-scrolled {
-                background: #030303 !important;
-                backdrop-filter: none !important;
-            }
-            .glass-card {
-                background: #111 !important;
-                backdrop-filter: none !important;
-            }
+            .nav-scrolled { background: #030303 !important; backdrop-filter: none !important; }
+            .glass-card { background: #111 !important; backdrop-filter: none !important; }
         }
+
+        /* ===== AI BOT STYLES ===== */
+
+        #bot-launcher {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            z-index: 9990;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 30px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.6);
+            display: flex; align-items: center; justify-content: center;
+            cursor: none;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #bot-launcher:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(255,255,255,0.15), 0 10px 40px rgba(0,0,0,0.7);
+            border-color: rgba(255,255,255,0.4);
+        }
+        .bot-pulse {
+            position: absolute; width: 10px; height: 10px;
+            top: 6px; right: 6px;
+            background: #4ade80; border-radius: 50%;
+            border: 2px solid #030303;
+        }
+        .bot-pulse.loading { background: #facc15; }
+        .bot-pulse::after {
+            content: ''; position: absolute; inset: -3px; border-radius: 50%;
+            background: rgba(74, 222, 128, 0.4);
+            animation: pulse-ring 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        .bot-pulse.loading::after { background: rgba(250, 204, 21, 0.4); }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        #bot-panel {
+            position: fixed;
+            bottom: 100px; right: 28px;
+            z-index: 9989;
+            width: 390px;
+            max-width: calc(100vw - 32px);
+            height: 560px;
+            max-height: calc(100vh - 130px);
+            background: linear-gradient(180deg, rgba(14,14,14,0.97) 0%, rgba(6,6,6,0.99) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08);
+            display: flex; flex-direction: column; overflow: hidden;
+            transform: scale(0.9) translateY(20px);
+            opacity: 0; pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            backdrop-filter: blur(40px);
+        }
+        #bot-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+        .bot-header {
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+            background: linear-gradient(180deg, rgba(20,20,20,0.8) 0%, transparent 100%);
+        }
+        .bot-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+        .bot-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center; font-size: 16px;
+        }
+        .bot-info { flex: 1; margin-left: 10px; }
+        .bot-name { font-size: 13px; font-weight: 600; color: #ededed; letter-spacing: -0.01em; }
+        .bot-status { font-size: 11px; color: #4ade80; display: flex; align-items: center; gap: 4px; margin-top: 1px; }
+        .bot-status.loading { color: #facc15; }
+        .bot-status-dot { width: 5px; height: 5px; background: #4ade80; border-radius: 50%; transition: background-color 0.3s; }
+        .bot-status.loading .bot-status-dot { background: #facc15; }
+        .bot-close {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+            cursor: none; transition: all 0.2s; color: #888;
+        }
+        .bot-close:hover { background: rgba(255,255,255,0.1); color: #ededed; }
+        .bot-tagline { font-size: 10px; color: #555; letter-spacing: 0.05em; text-transform: uppercase; }
+
+        .bot-chips {
+            padding: 0 12px 12px;
+            display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .bot-chip {
+            font-size: 10px; padding: 5px 10px; border-radius: 20px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            color: #888; cursor: none; transition: all 0.2s;
+            white-space: nowrap; letter-spacing: 0.01em;
+        }
+        .bot-chip:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.2); color: #ededed; }
+
+        .bot-messages {
+            flex: 1; overflow-y: auto; padding: 16px 16px 8px;
+            display: flex; flex-direction: column; gap: 10px;
+            scroll-behavior: smooth;
+        }
+        .bot-messages::-webkit-scrollbar { display: none; }
+
+        .msg { display: flex; gap: 8px; animation: msgIn 0.3s cubic-bezier(0.34, 1.2, 0.64, 1); }
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .msg.user { flex-direction: row-reverse; }
+        .msg-avatar {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; margin-top: 2px;
+        }
+        .msg-avatar.bot-av { background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)); border: 1px solid rgba(255,255,255,0.1); }
+        .msg-avatar.user-av { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); }
+        .msg-bubble {
+            max-width: 78%; padding: 10px 14px; border-radius: 16px;
+            font-size: 13px; line-height: 1.55; font-weight: 300;
+        }
+        .msg.bot .msg-bubble {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+            color: #d4d4d4; border-bottom-left-radius: 6px;
+        }
+        .msg.user .msg-bubble {
+            background: rgba(255,255,255,0.92); color: #030303;
+            font-weight: 400; border-bottom-right-radius: 6px;
+        }
+        .msg-bubble strong { color: #ededed; font-weight: 600; }
+        .msg-bubble em { color: #aaa; font-style: italic; }
+        .msg-bubble ul { margin: 6px 0 6px 14px; list-style: disc; }
+        .msg-bubble li { margin-bottom: 3px; }
+        .msg-bubble p { margin-bottom: 6px; }
+        .msg-bubble p:last-child { margin-bottom: 0; }
+        .msg-bubble code { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 11px; color: #60a5fa; }
+        .msg-bubble table { font-size: 11px; border-collapse: collapse; margin: 8px 0; width: 100%; }
+        .msg-bubble th, .msg-bubble td { border: 1px solid rgba(255,255,255,0.1); padding: 4px 8px; text-align: left; }
+        .msg-bubble th { background: rgba(255,255,255,0.06); color: #ededed; font-weight: 600; }
+
+        .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 12px 14px; }
+        .typing-dot { width: 5px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: typing 1.4s infinite ease-in-out; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(1); opacity: 0.4; }
+            40% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .bot-input-area {
+            padding: 12px; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
+            background: linear-gradient(0deg, rgba(10,10,10,0.9) 0%, transparent 100%);
+        }
+        .bot-input-row {
+            display: flex; gap: 8px; align-items: flex-end;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 16px; padding: 8px 8px 8px 14px; transition: border-color 0.2s;
+        }
+        .bot-input-row:focus-within { border-color: rgba(255,255,255,0.2); }
+        #bot-input {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: #ededed; font-size: 13px; font-family: 'Inter', sans-serif;
+            font-weight: 300; resize: none; max-height: 100px; min-height: 20px; line-height: 1.5;
+        }
+        #bot-input::placeholder { color: #444; }
+        #bot-send {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: white; border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: none; flex-shrink: 0; transition: all 0.2s;
+        }
+        #bot-send:hover { background: #e0e0e0; transform: scale(1.05); }
+        #bot-send:disabled { background: rgba(255,255,255,0.1); }
+        #bot-send svg { color: #030303; width: 14px; height: 14px; }
+        .bot-disclaimer { text-align: center; font-size: 9px; color: #333; margin-top: 8px; letter-spacing: 0.04em; }
+
+        /* Loading Overlay */
+        #bot-loading-overlay {
+            position: absolute; inset: 0;
+            background: rgba(6,6,6,0.97);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 24px; gap: 16px; border-radius: 24px; z-index: 10;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        #bot-loading-overlay.hidden { display: none; }
+        .loading-icon { font-size: 32px; animation: bounce 2s infinite ease-in-out; }
+        .loading-title { font-size: 16px; font-weight: 500; color: #ededed; font-family: '"Playfair Display"', serif; }
+        .loading-sub { font-size: 12px; color: #888; line-height: 1.6; max-width: 250px; }
+        .progress-bar-container {
+            width: 100%; max-width: 250px; height: 4px;
+            background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;
+            margin-top: 8px;
+        }
+        #loading-progress-bar {
+            height: 100%; width: 0%; background: #4ade80; border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        #loading-text { font-size: 11px; color: #666; margin-top: 4px; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
     </style>
 </head>
 <body class="antialiased selection:bg-white selection:text-black relative">
 
     <div class="noise-overlay"></div>
-    
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
@@ -217,27 +396,21 @@
             <a href="#" class="text-xl font-medium tracking-wide text-white serif flex items-center gap-2 magnetic-element relative z-50">
                 M & Co.
             </a>
-            
-            <!-- Center Nav (Superwhisper style) -->
             <div class="hidden md:flex items-center space-x-1 pill-badge rounded-full px-2 py-1 relative z-50">
                 <a href="#about" class="hover:text-white text-text-muted transition duration-500 magnetic-element px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-full hover:bg-white/5">About</a>
                 <a href="#services" class="hover:text-white text-text-muted transition duration-500 magnetic-element px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-full hover:bg-white/5">Services</a>
                 <a href="#projects" class="hover:text-white text-text-muted transition duration-500 magnetic-element px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-full hover:bg-white/5">Case Studies</a>
             </div>
-
-            <!-- Right CTA -->
             <div class="hidden md:flex relative z-50">
                 <a href="#contact" class="hover:bg-neutral-200 transition duration-500 magnetic-element px-5 py-2.5 text-xs font-bold uppercase tracking-wider bg-white text-black rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)]">Audit Call</a>
             </div>
-
-            <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden text-text-muted hover:text-white transition duration-300 focus:outline-none relative z-50">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#030303]/98 backdrop-blur-2xl flex flex-col justify-center items-center opacity-0 invisible">
         <div class="flex flex-col items-center gap-8 text-2xl font-serif text-text-muted">
             <a href="#about" class="mobile-link hover:text-white transition-colors">About</a>
@@ -252,8 +425,6 @@
         <div id="hero-grid" class="absolute inset-0 bg-grid opacity-30 -z-10 pointer-events-none transition-transform duration-75"></div>
         
         <div class="w-full relative z-10 flex flex-col items-center justify-center" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="1500">
-            
-            <!-- Badges -->
             <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mt-8 mb-6 sm:mb-8">
                 <span class="pill-badge px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-xs font-medium text-[#4ade80] flex items-center gap-2">
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -265,7 +436,6 @@
                 </span>
             </div>
 
-            <!-- Huge Title with improved mobile scaling -->
             <h1 class="text-4xl sm:text-[clamp(3.5rem,6vw,6rem)] leading-tight text-white serif font-medium text-center uppercase mb-4 sm:mb-6 px-2 w-full max-w-4xl mx-auto">
                 Stop Bleeding Margin<br>
                 <span class="italic text-text-muted font-light">On Manual Data Entry.</span>
@@ -282,9 +452,7 @@
                 <p class="text-sm text-text-subtle font-light mt-2">Direct integrations with Tally, QuickBooks, Xero, and custom ERPs.</p>
             </div>
 
-            <!-- Dashboard App Window Rising from bottom (Macbook View for Desktop) -->
             <div class="hidden md:block w-full max-w-5xl mx-auto relative rounded-t-[2rem] overflow-hidden border-t border-x border-white/15 shadow-[0_-20px_60px_rgba(255,255,255,0.05)] bg-[#050505] ui-mask" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="1700">
-                <!-- Mac style header -->
                 <div class="w-full h-12 bg-white/5 border-b border-white/5 flex items-center px-6 gap-2">
                     <div class="w-3 h-3 rounded-full bg-[#ef4444]/80"></div>
                     <div class="w-3 h-3 rounded-full bg-[#f59e0b]/80"></div>
@@ -293,24 +461,19 @@
                 <img src="assets/hero_dashboard.jpg" alt="Maahir & Co. AI Dashboard Automation Pipeline" class="w-full h-auto object-cover opacity-90 transition-transform duration-[2s] hover:scale-105" />
             </div>
 
-            <!-- Mobile View (clean, no phone frame) -->
             <div class="block md:hidden w-full mx-auto relative rounded-t-[1.5rem] overflow-hidden border-t border-x border-white/15 shadow-[0_-10px_40px_rgba(255,255,255,0.05)] bg-[#050505] ui-mask" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="1700">
                 <img src="assets/hero_dashboard_mobile.jpg" alt="Maahir & Co. Mobile AI Dashboard" class="w-full h-auto object-cover opacity-90" />
             </div>
         </div>
     </section>
 
-    <!-- Bento Grid Services (Mixing image 2, 4, 5) -->
+    <!-- Services -->
     <section id="services" class="py-20 sm:py-32 px-6 max-w-7xl mx-auto relative z-10 sm:-mt-10">
         <div class="mb-16 sm:mb-20 text-center max-w-4xl mx-auto" data-aos="fade-up">
             <h2 class="text-[10px] font-semibold tracking-[0.3em] text-text-subtle uppercase mb-4">Core Competencies</h2>
             <h3 class="text-3xl sm:text-5xl text-white serif mb-6">Boost your Operations with<br><span class="inline-block mt-2 px-4 py-1 pill-badge rounded-xl">Smart Automation</span></h3>
         </div>
-
-        <!-- Bento Box Layout -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Large Feature Card -->
             <div class="md:col-span-2 glass-card p-8 sm:p-14" data-aos="fade-up" data-aos-delay="0">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
@@ -318,14 +481,10 @@
                         <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <h4 class="text-2xl text-white mb-4 font-semibold">Invoice & Document Processing</h4>
-                    <p class="text-text-muted font-light leading-relaxed max-w-md mb-8">
-                        Automated extraction pipelines that parse unstructured receipts, tax documents, and bills, outputting clean, validated JSON directly into your accounting software.
-                    </p>
+                    <p class="text-text-muted font-light leading-relaxed max-w-md mb-8">Automated extraction pipelines that parse unstructured receipts, tax documents, and bills, outputting clean, validated JSON directly into your accounting software.</p>
                     <a href="#projects" class="text-white text-sm font-medium hover:text-text-muted transition-colors flex items-center gap-2">View Case Study <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></a>
                 </div>
             </div>
-
-            <!-- Narrow Feature Card -->
             <div class="md:col-span-1 glass-card p-8 sm:p-14" data-aos="fade-up" data-aos-delay="100">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
@@ -333,14 +492,10 @@
                         <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
                     <h4 class="text-xl text-white mb-4 font-semibold">Reconciliation Bots</h4>
-                    <p class="text-text-muted font-light leading-relaxed text-sm mb-8">
-                        Custom rules and LLM agents that flag ledger discrepancies and compliance risks before month-end closing.
-                    </p>
+                    <p class="text-text-muted font-light leading-relaxed text-sm mb-8">Custom rules and LLM agents that flag ledger discrepancies and compliance risks before month-end closing.</p>
                     <a href="#projects" class="text-white text-sm font-medium hover:text-text-muted transition-colors flex items-center gap-2">View Case Study <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></a>
                 </div>
             </div>
-
-            <!-- 3 Bottom Cards -->
             <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="0">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
@@ -349,7 +504,6 @@
                     <div class="text-[10px] uppercase tracking-widest text-text-subtle">Workflow Automation</div>
                 </div>
             </div>
-            
             <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
@@ -358,7 +512,6 @@
                     <div class="text-[10px] uppercase tracking-widest text-text-subtle">Data Parsing</div>
                 </div>
             </div>
-
             <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="200">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(96, 165, 250, 0.1) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
@@ -370,7 +523,7 @@
         </div>
     </section>
 
-    <!-- Case Studies Section (SaaS Pricing / Premium vibe) -->
+    <!-- Case Studies -->
     <section id="projects" class="py-20 sm:py-32 px-6 max-w-7xl mx-auto relative z-10">
         <div class="mb-16 sm:mb-20 text-center max-w-4xl mx-auto" data-aos="fade-up">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 pill-badge rounded-full text-xs font-medium text-white mb-6">
@@ -378,123 +531,70 @@
             </div>
             <h3 class="text-3xl sm:text-5xl text-white serif mb-6">Live Architecture Demos.</h3>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <!-- Project 1 -->
             <div class="glass-card p-8 sm:p-12 hover:border-white/30 transition-all duration-500" data-aos="fade-up">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(74, 222, 128, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
                     <h4 class="text-2xl text-white mb-2 font-semibold">Autonomous Invoice Parsing & Ledger Integration</h4>
                     <p class="text-text-subtle text-sm mb-8">The Accounts Payable Engine</p>
-                    
-                    <p class="text-text-muted font-light text-sm leading-relaxed mb-6">
-                        <strong class="text-white">The Bottleneck:</strong> Traditional accounting desks waste hundreds of billable hours manually transcribing unstructured vendor invoices, leading to human error and delayed month-end closing.
-                    </p>
-                    <p class="text-text-muted font-light text-sm leading-relaxed mb-10">
-                        <strong class="text-white">The Architecture:</strong> We built a proprietary ingestion pipeline utilizing advanced OCR and strict-schema LLM extraction. The engine parses messy PDFs in seconds, structuring the data into clean, validated JSON ready for direct integration into Tally or QuickBooks.
-                    </p>
-                    
+                    <p class="text-text-muted font-light text-sm leading-relaxed mb-6"><strong class="text-white">The Bottleneck:</strong> Traditional accounting desks waste hundreds of billable hours manually transcribing unstructured vendor invoices, leading to human error and delayed month-end closing.</p>
+                    <p class="text-text-muted font-light text-sm leading-relaxed mb-10"><strong class="text-white">The Architecture:</strong> We built a proprietary ingestion pipeline utilizing advanced OCR and strict-schema LLM extraction. The engine parses messy PDFs in seconds, structuring the data into clean, validated JSON ready for direct integration into Tally or QuickBooks.</p>
                     <div class="space-y-4">
-                        <div class="flex items-start gap-3 text-sm font-light">
-                            <div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
-                            <span class="text-white font-medium">Sub-3-second LLM inference and data extraction.</span>
-                        </div>
-                        <div class="flex items-start gap-3 text-sm font-light">
-                            <div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
-                            <span class="text-white font-medium">100% Zero-Data Retention architecture for total compliance.</span>
-                        </div>
-                        <div class="flex items-start gap-3 text-sm font-light">
-                            <div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
-                            <span class="text-white font-medium">Strict JSON schema enforcement to eliminate transcription errors.</span>
-                        </div>
+                        <div class="flex items-start gap-3 text-sm font-light"><div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div><span class="text-white font-medium">Sub-3-second LLM inference and data extraction.</span></div>
+                        <div class="flex items-start gap-3 text-sm font-light"><div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div><span class="text-white font-medium">100% Zero-Data Retention architecture for total compliance.</span></div>
+                        <div class="flex items-start gap-3 text-sm font-light"><div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div><span class="text-white font-medium">Strict JSON schema enforcement to eliminate transcription errors.</span></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Project 2 -->
             <div class="glass-card p-8 sm:p-12 hover:border-white/30 transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(74, 222, 128, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
                     <h4 class="text-2xl text-white mb-2 font-semibold">Automated Ledger Reconciliation & Anomaly Detection</h4>
                     <p class="text-text-subtle text-sm mb-8">The Reconciliation Agent</p>
-                    
-                    <p class="text-text-muted font-light text-sm leading-relaxed mb-6">
-                        <strong class="text-white">The Bottleneck:</strong> Finance teams burn valuable advisory time cross-referencing bank statements against manual ledger entries to find missing cents and mismatched records.
-                    </p>
-                    <p class="text-text-muted font-light text-sm leading-relaxed mb-10">
-                        <strong class="text-white">The Architecture:</strong> A secure, autonomous rules-engine designed to scan raw financial logs before human review. It cross-references data streams to flag discrepancies, duplicate invoices, and compliance risks, outputting a prioritized dashboard for senior review.
-                    </p>
-                    
+                    <p class="text-text-muted font-light text-sm leading-relaxed mb-6"><strong class="text-white">The Bottleneck:</strong> Finance teams burn valuable advisory time cross-referencing bank statements against manual ledger entries to find missing cents and mismatched records.</p>
+                    <p class="text-text-muted font-light text-sm leading-relaxed mb-10"><strong class="text-white">The Architecture:</strong> A secure, autonomous rules-engine designed to scan raw financial logs before human review. It cross-references data streams to flag discrepancies, duplicate invoices, and compliance risks, outputting a prioritized dashboard for senior review.</p>
                     <div class="space-y-4">
-                        <div class="flex items-start gap-3 text-sm font-light">
-                            <div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
-                            <span class="text-white font-medium">Proactive anomaly and duplicate invoice flagging.</span>
-                        </div>
-                        <div class="flex items-start gap-3 text-sm font-light">
-                            <div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
-                            <span class="text-white font-medium">Fully isolated data processing to protect sensitive financial logs.</span>
-                        </div>
-                        <div class="flex items-start gap-3 text-sm font-light">
-                            <div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
-                            <span class="text-white font-medium">Scalable architecture capable of batch-processing high-volume ledgers.</span>
-                        </div>
+                        <div class="flex items-start gap-3 text-sm font-light"><div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div><span class="text-white font-medium">Proactive anomaly and duplicate invoice flagging.</span></div>
+                        <div class="flex items-start gap-3 text-sm font-light"><div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div><span class="text-white font-medium">Fully isolated data processing to protect sensitive financial logs.</span></div>
+                        <div class="flex items-start gap-3 text-sm font-light"><div class="w-5 h-5 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div><span class="text-white font-medium">Scalable architecture capable of batch-processing high-volume ledgers.</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About -->
     <section id="about" class="py-20 sm:py-32 px-6 bg-surface/50 border-y border-border relative z-10 mt-10">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-24 items-center">
             <div data-aos="fade-up">
-                <h3 class="text-3xl sm:text-4xl text-white mb-8 serif">
-                    Bridging Machine Learning Rigor with Commerce Strategy.
-                </h3>
-                <p class="text-text-muted font-light text-lg mb-6 leading-relaxed">
-                    Led by <strong class="text-white font-medium">Mahir Kadia</strong>, we recognize that most AI tools fail in finance because they lack strict error-handling and data security. 
-                </p>
-                <p class="text-text-muted font-light text-lg mb-8 leading-relaxed">
-                    Our approach combines fast low-code orchestration with deep technical oversight to ensure your automated pipelines are private, accurate, and scalable.
-                </p>
+                <h3 class="text-3xl sm:text-4xl text-white mb-8 serif">Bridging Machine Learning Rigor with Commerce Strategy.</h3>
+                <p class="text-text-muted font-light text-lg mb-6 leading-relaxed">Led by <strong class="text-white font-medium">Mahir Kadia</strong>, we recognize that most AI tools fail in finance because they lack strict error-handling and data security.</p>
+                <p class="text-text-muted font-light text-lg mb-8 leading-relaxed">Our approach combines fast low-code orchestration with deep technical oversight to ensure your automated pipelines are private, accurate, and scalable.</p>
                 <div class="flex flex-wrap gap-3">
                     <span class="px-4 py-2 text-xs bg-void text-text-muted border border-border rounded-lg">Python / n8n</span>
                     <span class="px-4 py-2 text-xs bg-void text-text-muted border border-border rounded-lg">LLM APIs</span>
                     <span class="px-4 py-2 text-xs bg-void text-text-muted border border-border rounded-lg">RAG Systems</span>
                 </div>
             </div>
-            
             <div class="glass-card p-8 sm:p-10" data-aos="fade-up" data-aos-delay="100">
-                <!-- Red Glow added as requested -->
                 <div class="glass-card-glow" style="background: radial-gradient(ellipse at top, rgba(248, 113, 113, 0.15) 0%, transparent 70%);"></div>
                 <div class="relative z-10">
                     <h4 class="text-xl font-medium text-white mb-8">Why High-Volume Commerce?</h4>
                     <div class="space-y-6">
-                        <div>
-                            <strong class="text-white block mb-1">Measurable ROI</strong>
-                            <p class="text-text-muted text-sm font-light">High-volume workflows mean immediate scalable return on investment.</p>
-                        </div>
-                        <div>
-                            <strong class="text-white block mb-1">Advisory Shift</strong>
-                            <p class="text-text-muted text-sm font-light">Automating ledger entry lets senior teams focus on advisory work.</p>
-                        </div>
-                        <div>
-                            <strong class="text-white block mb-1">Strict Compliance</strong>
-                            <p class="text-text-muted text-sm font-light">Bulletproof privacy options, including zero-retention API setups.</p>
-                        </div>
+                        <div><strong class="text-white block mb-1">Measurable ROI</strong><p class="text-text-muted text-sm font-light">High-volume workflows mean immediate scalable return on investment.</p></div>
+                        <div><strong class="text-white block mb-1">Advisory Shift</strong><p class="text-text-muted text-sm font-light">Automating ledger entry lets senior teams focus on advisory work.</p></div>
+                        <div><strong class="text-white block mb-1">Strict Compliance</strong><p class="text-text-muted text-sm font-light">Bulletproof privacy options, including zero-retention API setups.</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact CTA Section -->
+    <!-- Contact CTA -->
     <section id="contact" class="py-24 sm:py-40 px-6 relative z-10">
         <div class="max-w-3xl mx-auto text-center" data-aos="zoom-in" data-aos-duration="1500">
             <h3 class="text-4xl sm:text-6xl text-white mb-8 serif">Ready to Automate?</h3>
-            <p class="text-text-muted font-light text-lg mb-12">
-                Let's identify where your team is burning hours on manual tasks. Book a 30-minute consultation call to map out your custom AI implementation plan.
-            </p>
+            <p class="text-text-muted font-light text-lg mb-12">Let's identify where your team is burning hours on manual tasks. Book a 30-minute consultation call to map out your custom AI implementation plan.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto">
                 <button onclick="document.getElementById('auditModal').classList.remove('hidden')" class="magnetic-element w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-neutral-200 transition-colors">
                     Book an Audit Call
@@ -516,99 +616,83 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script>
-        AOS.init({ once: true, offset: 50, easing: 'ease-out-quint' });
+    <!-- ===== AI CONSULTING BOT ===== -->
 
-        // Navbar Scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 20) {
-                navbar.classList.add('nav-scrolled', 'py-4');
-                navbar.classList.remove('py-6');
-            } else {
-                navbar.classList.remove('nav-scrolled', 'py-4');
-                navbar.classList.add('py-6');
-            }
-        });
+    <!-- Launcher Button -->
+    <button id="bot-launcher" aria-label="Open AI Consultant">
+        <div class="bot-pulse"></div>
+        <svg width="22" height="22" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/>
+        </svg>
+    </button>
 
-        // Mobile Menu Toggle
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
+    <!-- Bot Panel -->
+    <div id="bot-panel" role="dialog" aria-label="AI Consulting Assistant">
+        <!-- Loading Overlay for Model Download -->
+        <div id="bot-loading-overlay" class="hidden">
+            <div class="loading-icon">🤖</div>
+            <div class="loading-title">Initializing Local AI</div>
+            <div class="loading-sub">Downloading the AI model directly to your browser so it runs 100% locally and privately with zero API calls.</div>
+            <div class="progress-bar-container">
+                <div id="loading-progress-bar"></div>
+            </div>
+            <div id="loading-text">Starting...</div>
+        </div>
 
-        function toggleMenu() {
-            if (mobileMenu.classList.contains('invisible')) {
-                mobileMenu.classList.remove('invisible', 'opacity-0');
-                document.body.style.overflow = 'hidden'; // prevent scrolling
-            } else {
-                mobileMenu.classList.add('invisible', 'opacity-0');
-                document.body.style.overflow = '';
-            }
-        }
+        <!-- Header -->
+        <div class="bot-header">
+            <div class="bot-header-top">
+                <div class="bot-avatar">🤖</div>
+                <div class="bot-info">
+                    <div class="bot-name">M&Co. AI Consultant</div>
+                    <div class="bot-status"><div class="bot-status-dot"></div> <span id="bot-status-text">Local Engine Ready</span></div>
+                </div>
+                <button class="bot-close" id="bot-close" aria-label="Close chat">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="bot-tagline">AI Automation · Finance Ops · LLM Pipelines</div>
+        </div>
 
-        mobileBtn.addEventListener('click', toggleMenu);
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', toggleMenu);
-        });
+        <!-- Suggestion Chips -->
+        <div class="bot-chips" id="bot-chips">
+            <button class="bot-chip" data-msg="What AI automation services do you offer?">Services</button>
+            <button class="bot-chip" data-msg="How does AI invoice processing work?">Invoice AI</button>
+            <button class="bot-chip" data-msg="What is a RAG system and how can it help my business?">RAG Systems</button>
+            <button class="bot-chip" data-msg="How much does an AI automation project typically cost?">Pricing</button>
+            <button class="bot-chip" data-msg="How do I get started working with Maahir & Co.?">Get Started</button>
+        </div>
 
-        // Cursor Effects
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-        window.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = `${e.clientX}px`;
-            cursorDot.style.top = `${e.clientY}px`;
-            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
-        });
+        <!-- Messages -->
+        <div class="bot-messages" id="bot-messages"></div>
 
-        document.querySelectorAll('a, button, .magnetic-element').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-        });
-
-        document.querySelectorAll('.magnetic-element').forEach(magnetic => {
-            magnetic.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width/2;
-                const y = e.clientY - rect.top - rect.height/2;
-                this.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-            });
-            magnetic.addEventListener('mouseleave', function() {
-                this.style.transform = `translate(0px, 0px)`;
-                this.style.transition = `transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)`;
-            });
-            magnetic.addEventListener('mouseenter', function() {
-                this.style.transition = 'none';
-            });
-        });
-
-        const heroGrid = document.getElementById('hero-grid');
-        window.addEventListener('mousemove', (e) => {
-            if(heroGrid) heroGrid.style.transform = `translate(${(window.innerWidth - e.pageX)/50}px, ${(window.innerHeight - e.pageY)/50}px)`;
-        });
-    </script>
+        <!-- Input Area -->
+        <div class="bot-input-area">
+            <div class="bot-input-row">
+                <textarea id="bot-input" placeholder="Ask about AI automation, pricing, services..." rows="1" maxlength="1000"></textarea>
+                <button id="bot-send" aria-label="Send">
+                    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="width:14px;height:14px;color:#030303">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="bot-disclaimer">Runs 100% locally in your browser. Powered by WebLLM.</div>
+        </div>
+    </div>
 
     <!-- Audit Form Modal -->
     <div id="auditModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="document.getElementById('auditModal').classList.add('hidden')"></div>
-        
-        <!-- Modal Content -->
         <div class="relative bg-surface border border-border w-full max-w-lg rounded-2xl shadow-2xl p-6 sm:p-8 transform transition-all">
             <button onclick="document.getElementById('auditModal').classList.add('hidden')" class="absolute top-4 right-4 text-text-muted hover:text-white p-2 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            
             <h3 class="text-2xl text-white serif font-medium mb-2">Book a Workflow Audit</h3>
             <p class="text-text-muted font-light text-sm mb-6">Fill out the details below and I'll get back to you within 24 hours.</p>
-            
             <form action="https://formsubmit.co/maahirkadia@gmail.com" method="POST" class="space-y-4">
-                <!-- Disable Captcha (Optional but cleaner UX) -->
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_subject" value="New Workflow Audit Request from Maahir & Co.">
-                <!-- After submit redirect back to site -->
                 <input type="hidden" name="_next" value="https://maahirrrr.github.io/maahir-co/">
-
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">Name</label>
@@ -619,27 +703,266 @@
                         <input type="email" name="Email" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="john@company.com">
                     </div>
                 </div>
-
                 <div class="space-y-1">
-                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">What industry are you in?</label>
+                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">Industry</label>
                     <input type="text" name="Industry" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="e.g. Accounting, E-commerce, Legal">
                 </div>
-
                 <div class="space-y-1">
-                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">What software are you currently using?</label>
+                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">Current Software</label>
                     <input type="text" name="Software" required class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700" placeholder="e.g. Tally, Xero, QuickBooks, Custom ERP">
                 </div>
-
                 <div class="space-y-1">
-                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">What is your biggest manual data entry bottleneck?</label>
+                    <label class="text-xs text-text-subtle uppercase tracking-wider font-semibold">Biggest Manual Bottleneck</label>
                     <textarea name="Bottleneck" required rows="3" class="w-full bg-void border border-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-neutral-700 resize-none" placeholder="Briefly describe the task that takes up the most time..."></textarea>
                 </div>
-
-                <button type="submit" class="w-full bg-white text-black font-semibold rounded-xl px-8 py-4 mt-2 hover:bg-neutral-200 transition-colors">
-                    Submit Request
-                </button>
+                <button type="submit" class="w-full bg-white text-black font-semibold rounded-xl px-8 py-4 mt-2 hover:bg-neutral-200 transition-colors">Submit Request</button>
             </form>
         </div>
     </div>
+
+    <!-- Main Scripts -->
+    <script>
+        AOS.init({ once: true, offset: 50, easing: 'ease-out-quint' });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) { navbar.classList.add('nav-scrolled','py-4'); navbar.classList.remove('py-6'); }
+            else { navbar.classList.remove('nav-scrolled','py-4'); navbar.classList.add('py-6'); }
+        });
+
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', toggleMenu));
+        mobileBtn.addEventListener('click', toggleMenu);
+        function toggleMenu() {
+            if (mobileMenu.classList.contains('invisible')) { mobileMenu.classList.remove('invisible','opacity-0'); document.body.style.overflow = 'hidden'; }
+            else { mobileMenu.classList.add('invisible','opacity-0'); document.body.style.overflow = ''; }
+        }
+
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+        });
+        document.querySelectorAll('a, button, .magnetic-element').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+        document.querySelectorAll('.magnetic-element').forEach(m => {
+            m.addEventListener('mousemove', function(e) {
+                const r = this.getBoundingClientRect();
+                this.style.transform = `translate(${(e.clientX-r.left-r.width/2)*0.2}px,${(e.clientY-r.top-r.height/2)*0.2}px)`;
+            });
+            m.addEventListener('mouseleave', function() { this.style.transform='translate(0,0)'; this.style.transition='transform 0.5s cubic-bezier(0.25,1,0.5,1)'; });
+            m.addEventListener('mouseenter', function() { this.style.transition='none'; });
+        });
+        const heroGrid = document.getElementById('hero-grid');
+        window.addEventListener('mousemove', (e) => {
+            if(heroGrid) heroGrid.style.transform=`translate(${(window.innerWidth-e.pageX)/50}px,${(window.innerHeight-e.pageY)/50}px)`;
+        });
+    </script>
+
+    <!-- ===== LOCAL BOT LOGIC VIA WEBLLM ===== -->
+    <script type="module">
+        import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
+
+        let engine = null;
+        let isEngineReady = false;
+        let isLoadingEngine = false;
+        let conversationHistory = [];
+        let isLoading = false;
+
+        const launcher      = document.getElementById('bot-launcher');
+        const pulse         = launcher.querySelector('.bot-pulse');
+        const panel         = document.getElementById('bot-panel');
+        const closeBtn      = document.getElementById('bot-close');
+        const messagesEl    = document.getElementById('bot-messages');
+        const inputEl       = document.getElementById('bot-input');
+        const sendBtn       = document.getElementById('bot-send');
+        const chipsEl       = document.getElementById('bot-chips');
+        const loadingOverlay = document.getElementById('bot-loading-overlay');
+        const progressBar   = document.getElementById('loading-progress-bar');
+        const progressText  = document.getElementById('loading-text');
+        const statusText    = document.getElementById('bot-status-text');
+        const statusIcon    = document.querySelector('.bot-status');
+
+        // Smallest capable model available in WebLLM standard list
+        const SELECTED_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
+
+        // ─── System Prompt ────────────────────────────────
+        const SYSTEM_PROMPT = `You are the AI Consulting Assistant for Maahir & Co., a premium AI automation and systems consulting firm led by Mahir Kadia. You speak in a confident, expert, yet approachable tone.
+
+Your expertise:
+- AI Automation Pipelines: Invoice processing, document parsing using LLMs
+- Finance Automation: Ledger reconciliation, anomaly detection
+- LLM Applications: RAG systems, prompt engineering
+- Integrations: QuickBooks, Xero, Tally, n8n workflows
+- Business Strategy: ROI analysis, bottleneck identification
+
+Pricing context:
+- Small pipeline: $2,000–$5,000
+- Full AP system: $6,000–$12,000  
+- Always recommend a free workflow audit.
+
+Maahir & Co. key differentiators:
+- Zero-data retention architecture
+- Enterprise-grade security
+- Sub-3-second LLM inference
+- Direct ERP integrations
+
+Be concise. Use markdown. If asked something outside scope, redirect to booking a consultation. Keep responses under 150 words.`;
+
+        // ─── Init Local Engine ───────────────────────────
+        async function initEngine() {
+            if (engine || isLoadingEngine) return;
+            isLoadingEngine = true;
+            loadingOverlay.classList.remove('hidden');
+            
+            try {
+                // Initialize engine with progress callback
+                engine = await CreateMLCEngine(SELECTED_MODEL, {
+                    initProgressCallback: (progress) => {
+                        const percent = Math.round(progress.progress * 100);
+                        progressBar.style.width = `${percent}%`;
+                        progressText.textContent = progress.text;
+                    }
+                });
+                
+                isEngineReady = true;
+                loadingOverlay.classList.add('hidden');
+                statusText.textContent = 'Local AI Ready';
+                statusIcon.classList.remove('loading');
+                pulse.classList.remove('loading');
+                
+                // Set system prompt
+                conversationHistory = [
+                    { role: "system", content: SYSTEM_PROMPT }
+                ];
+                
+                // Add welcome message if not added
+                if (messagesEl.children.length === 0) {
+                    addMessage('bot', `👋 Hi! I'm the **Maahir & Co. Local AI Consultant**.\n\nI am running 100% locally in your browser right now — zero API calls. \n\nI can help you with:\n- **AI automation** strategy & scoping\n- **Invoice processing** & LLM pipeline architecture\n- **Pricing** estimates & project planning\n\nWhat would you like to explore?`);
+                }
+            } catch (err) {
+                console.error("WebLLM Init Error:", err);
+                loadingOverlay.classList.add('hidden');
+                addMessage('bot', `⚠️ **Failed to load local AI model.**\n\nYour browser or device might not support WebGPU, which is required for local inference. Error: ${err.message}`);
+                statusText.textContent = 'Failed to load';
+            }
+            isLoadingEngine = false;
+        }
+
+        // ─── Helpers ─────────────────────────────────────
+        function addMessage(role, content) {
+            const isUser = role === 'user';
+            const wrap = document.createElement('div');
+            wrap.className = `msg ${isUser ? 'user' : 'bot'}`;
+
+            const av = document.createElement('div');
+            av.className = `msg-avatar ${isUser ? 'user-av' : 'bot-av'}`;
+            av.textContent = isUser ? '👤' : '🤖';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+
+            if (!isUser && typeof marked !== 'undefined') {
+                marked.setOptions({ breaks: true, gfm: true });
+                bubble.innerHTML = marked.parse(content);
+            } else {
+                bubble.textContent = content;
+            }
+
+            wrap.appendChild(av);
+            wrap.appendChild(bubble);
+            messagesEl.appendChild(wrap);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function showTyping() {
+            const wrap = document.createElement('div');
+            wrap.className = 'msg bot'; wrap.id = 'typing-msg';
+            wrap.innerHTML = `<div class="msg-avatar bot-av">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+            messagesEl.appendChild(wrap);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function hideTyping() { const t = document.getElementById('typing-msg'); if(t) t.remove(); }
+
+        function setLoading(v) { isLoading = v; sendBtn.disabled = v; inputEl.disabled = v; }
+
+        // ─── Local LLM Call ─────────────────────────────
+        async function callLocalLLM(userMsg) {
+            conversationHistory.push({ role:'user', content: userMsg });
+            
+            const reply = await engine.chat.completions.create({
+                messages: conversationHistory,
+                temperature: 0.7,
+                max_tokens: 300,
+            });
+            
+            const replyText = reply.choices[0].message.content;
+            conversationHistory.push({ role:'assistant', content: replyText });
+            return replyText;
+        }
+
+        // ─── Send ─────────────────────────────────────────
+        async function sendMessage(text) {
+            const msg = (text || inputEl.value).trim();
+            if (!msg || isLoading) return;
+            
+            if (!isEngineReady) {
+                addMessage('bot', `⚠️ **Model is still loading.** Please wait a moment for the local AI engine to initialize.`);
+                return;
+            }
+            
+            inputEl.value = ''; inputEl.style.height = 'auto';
+            chipsEl.style.display = 'none';
+            addMessage('user', msg);
+            setLoading(true); showTyping();
+            try {
+                const reply = await callLocalLLM(msg);
+                hideTyping(); addMessage('bot', reply);
+            } catch(err) {
+                hideTyping();
+                addMessage('bot', `⚠️ **Error during inference:** ${err.message}`);
+            } finally { setLoading(false); inputEl.focus(); }
+        }
+
+        // ─── Textarea auto-resize ─────────────────────────
+        inputEl.addEventListener('input', () => { inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,100)+'px'; });
+        inputEl.addEventListener('keydown', (e) => { if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } });
+        sendBtn.addEventListener('click', () => sendMessage());
+
+        // ─── Chips ───────────────────────────────────────
+        document.querySelectorAll('.bot-chip').forEach(c => c.addEventListener('click', () => sendMessage(c.dataset.msg)));
+
+        // ─── Panel open/close ─────────────────────────────
+        function openPanel() {
+            panel.classList.add('open');
+            launcher.style.display = 'none';
+            if (!isEngineReady) {
+                initEngine();
+            }
+        }
+        function closePanel() { panel.classList.remove('open'); setTimeout(() => { launcher.style.display='flex'; }, 350); }
+
+        launcher.addEventListener('click', openPanel);
+        closeBtn.addEventListener('click', closePanel);
+        document.addEventListener('click', (e) => {
+            if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== launcher) closePanel();
+        });
+
+        // ─── Cursor compatibility ─────────────────────────
+        [panel, launcher].forEach(el => {
+            el.querySelectorAll ? el.querySelectorAll('*').forEach(c => {
+                c.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                c.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            }) : null;
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+    </script>
+
 </body>
 </html>
